@@ -499,3 +499,143 @@ How do you interpret the indices computed for the County data?
 Now process the other three lists in the same fashion.
 
 How do you interpret indices computed from your second type of data? 
+
+```{r}
+library(BIEN)
+Hawaii <- BIEN_occurrence_county(country="United States", state="Hawaii", county = "Hawaii")
+head(Hawaii)
+tail(Hawaii)
+Maui <- BIEN_occurrence_county(country="United States", state="Hawaii", county = "Maui")
+head(Maui)
+tail(Maui)
+attributes(Maui)
+Honolulu <- BIEN_occurrence_county(country="United States", state="Hawaii", county = "Honolulu")
+head(Honolulu)
+tail(Honolulu)
+attributes(Honolulu)
+```
+
+```{r}
+Hawaii.occ=Hawaii[c(1)]
+head(Hawaii.occ)
+Maui.occ=Maui[c(1)]
+head(Maui.occ)
+Honolulu.occ=Honolulu[c(1)]
+head(Honolulu.occ)
+
+Hawaii.ab=count(Hawaii.occ)
+head(Hawaii.ab)
+Maui.ab=count(Maui.occ)
+head(Maui.ab)
+Honolulu.ab=count(Honolulu.occ)
+head(Honolulu.ab)
+```
+
+```{r}
+Hawaii.ab=data.frame("Hawaii", Hawaii.ab)
+head(Hawaii.ab)
+names(Hawaii.ab)<-c("ListID", "SpeciesID", "Freq")
+head(Hawaii.ab)
+Maui.ab=data.frame("Maui", Maui.ab)
+head(Hawaii.ab)
+names(Maui.ab)<-c("ListID", "SpeciesID", "Freq")
+head(Maui.ab)
+Honolulu.ab=data.frame("Honolulu", Honolulu.ab)
+head(Honolulu.ab)
+names(Honolulu.ab)<-c("ListID", "SpeciesID", "Freq")
+head(Honolulu.ab)
+threecounty.ab=rbind(Hawaii.ab, Maui.ab, Honolulu.ab)
+head(threecounty.ab)
+tail(threecounty.ab)
+dim(threecounty.ab)
+```
+
+```{r}
+library(labdsv)
+threecountry_matrify.ab<-matrify(threecounty.ab)
+#If we look at the dimensions of this matrix, what does it mean? What is 2? What is 9?
+dim(threecountry_matrify.ab)
+library(vegan)
+simpson<-diversity(threecountry_matrify.ab, index = "simpson")
+shannon<-diversity(threecountry_matrify.ab, index = "shannon")
+simpson
+shannon
+bray = vegdist(threecountry_matrify.ab, "bray")
+bray
+jaccard = vegdist(threecountry_matrify.ab, "jaccard", binary=T)
+jaccard
+```
+
+# According to Simpson's diversity index, Maui (0.992) and Honolulu (0.987) are much more diverse than Hawaii (0.160). In fact, both Maui and Honolulu are approaching hypothetical infinite diversity! This metric takes into account the number of species present and the relative abundance of each species. Perhaps Hawaii's diversity is much lower because it is a newer island? 
+
+# Like the Simpson's diversity index, the Shannon diversity index also takes into account the number of species present and the relative abundance of each species, however it gives less weight to dominant or common species. Again we see that Maui and Honolulu have very high diversity measures (5.333 and 5.204, respectively), although Honolulu is again slightly less diverse than Maui. Hawaii has a very low diversity measure at 0.668. 
+
+#Bray Curtis Index uses pairwise comparisons to calculate how similar sites are to each other. In these three counties, Hawaii and Honolulu are the most similar (0.988), followed by Hawaii and Maui (0.975). Maui and Honolulu were the least similar (0.881). However, these all these numbers are relatively high and therefore the islands are all quite similar to each other. Again, perhaps Hawaii is more similar to the other islands because it is younger and has fewer endemic species. 
+
+#Jaccard Index also uses pairwise comparisons to calculate how similar sites are to each other but rather than using abundance data, it uses binary occurrence data. With this index, we see a slightly different pattern: Hawaii and Honolulu are again the most similar (0.953), but this is followed by Maui and Honolulu (0.951). Hawaii and Maui are the least similar (0.891) according to Jaccard. 
+
+```{r}
+#import datasets NYBG CV Star
+#using occurance data from Kansas, Arkansas, Oklahoma
+kansas.occ=kansas[c(22)]
+head(kansas.occ)
+tail(kansas.occ)
+arkansas.occ=arkansas[c(22)]
+head(arkansas.occ)
+tail(arkansas.occ)
+oklahoma.occ=oklahoma[c(22)]
+head(oklahoma.occ)
+tail(oklahoma.occ)
+
+kansas.ab=count(kansas.occ)
+head(kansas.ab)
+arkansas.ab=count(arkansas.occ)
+head(kansas.ab)
+oklahoma.ab=count(oklahoma.occ)
+head(oklahoma.ab)
+```
+```{r}
+kansas.ab=data.frame("kansas", kansas.ab)
+head(kansas.ab)
+names(kansas.ab)<-c("ListID", "SpeciesID", "Freq")
+head(kansas.ab)
+arkansas.ab=data.frame("arkansas", arkansas.ab)
+head(arkansas.ab)
+names(arkansas.ab)<-c("ListID", "SpeciesID", "Freq")
+head(arkansas.ab)
+oklahoma.ab=data.frame("oklahoma", oklahoma.ab)
+head(oklahoma.ab)
+names(oklahoma.ab)<-c("ListID", "SpeciesID", "Freq")
+head(oklahoma.ab)
+threestate.ab=rbind(kansas.ab, arkansas.ab, oklahoma.ab)
+head(threestate.ab)
+tail(threestate.ab)
+dim(threestate.ab)
+```
+
+
+```{r}
+library(labdsv)
+threestate.ab_matrix<-matrify(threestate.ab)
+#If we look at the dimensions of this matrix, what does it mean? What is 2? What is 9?
+dim(threestate.ab_matrix)
+library(vegan)
+simpson<-diversity(threestate.ab_matrix, index = "simpson")
+shannon<-diversity(threestate.ab_matrix, index = "shannon")
+simpson
+shannon
+bray = vegdist(threestate.ab_matrix, "bray")
+bray
+jaccard = vegdist(threestate.ab_matrix, "jaccard", binary=T)
+jaccard
+```
+
+# According to Simpson's diversity index, Kansas, Arkansas, and Oklahoma have very similar levels of diversity (0.998, 0.998, and 0.998, respectively). This might be explained by the fact that they are similarly sized states with similar landscapes (prairie, farm, and rangeland).  
+
+# According to the Shannon diversity index however, Kansas (7.301) is slightly more diverse than Arkansas (6.890) and Oklahoma (6.853). The Shannon diversity index gives less weight to dominant or common species so perhaps this affected the measure. 
+
+#Accoridng to the Bray Curtis Index, Kansas and Arkansas are the most similar (0.828), followed by Kansas and Oklahoma (0.786). Arkansas and Oklahoma are the least similar (0.653). This is surprising because Kansas and Arkansas do not actually border each other while Oklahoma borders both Kansas and Arkansas. 
+
+#A similar pattern emerges using the Jaccard Index: Kansas and Arkansas are the most similar (0.870), followed by Kansas and Oklahoma (0.831), and Arkansas and Oklahoma are the least similar (0.7111)
+
+
