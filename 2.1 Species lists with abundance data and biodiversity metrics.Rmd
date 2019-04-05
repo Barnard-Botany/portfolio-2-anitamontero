@@ -570,9 +570,13 @@ jaccard
 
 # Like the Simpson's diversity index, the Shannon diversity index also takes into account the number of species present and the relative abundance of each species, however it gives less weight to dominant or common species. Again we see that Maui and Honolulu have very high diversity measures (5.333 and 5.204, respectively), although Honolulu is again slightly less diverse than Maui. Hawaii has a very low diversity measure at 0.668. 
 
-#Bray Curtis Index uses pairwise comparisons to calculate how similar sites are to each other. In these three counties, Hawaii and Honolulu are the most similar (0.988), followed by Hawaii and Maui (0.975). Maui and Honolulu were the least similar (0.881). However, these all these numbers are relatively high and therefore the islands are all quite similar to each other. Again, perhaps Hawaii is more similar to the other islands because it is younger and has fewer endemic species. 
+#Bray Curtis Index uses pairwise comparisons to calculate how similar sites are to each other. In these three counties, Hawaii and Honolulu are the most similar (0.988), followed by Hawaii and Maui (0.975). Maui and Honolulu were the least similar (0.881). However, these all these numbers are relatively high and therefore the islands are all quite similar to each other. Again, perhaps Hawaii is more similar to the other islands because it is younger and has fewer endemic species.
 
-#Jaccard Index also uses pairwise comparisons to calculate how similar sites are to each other but rather than using abundance data, it uses binary occurrence data. With this index, we see a slightly different pattern: Hawaii and Honolulu are again the most similar (0.953), but this is followed by Maui and Honolulu (0.951). Hawaii and Maui are the least similar (0.891) according to Jaccard. 
+Actually, for Bray, 0 = less different, 1 = more different, so Honolulu and Hawaii are the LEAST similar. Since these numbers are high, the islands are less similar to each other, according to the Bray-Curtis index.
+
+#Jaccard Index also uses pairwise comparisons to calculate how similar sites are to each other but rather than using abundance data, it uses binary occurrence data. With this index, we see a slightly different pattern: Hawaii and Honolulu are again the most similar (0.953), but this is followed by Maui and Honolulu (0.951). Hawaii and Maui are the least similar (0.891) according to Jaccard.
+
+This is accurate. So why are Bray-Curtis and Jaccard telling us opposite things? Talk to Dr. Callahan or I about this in class if you're curious, because it's difficult to explain using just text.
 
 ```{r}
 #import datasets NYBG CV Star
@@ -634,8 +638,15 @@ jaccard
 
 # According to the Shannon diversity index however, Kansas (7.301) is slightly more diverse than Arkansas (6.890) and Oklahoma (6.853). The Shannon diversity index gives less weight to dominant or common species so perhaps this affected the measure. 
 
-#Accoridng to the Bray Curtis Index, Kansas and Arkansas are the most similar (0.828), followed by Kansas and Oklahoma (0.786). Arkansas and Oklahoma are the least similar (0.653). This is surprising because Kansas and Arkansas do not actually border each other while Oklahoma borders both Kansas and Arkansas. 
+#Accoridng to the Bray Curtis Index, Kansas and Arkansas are the most similar (0.828), followed by Kansas and Oklahoma (0.786). Arkansas and Oklahoma are the least similar (0.653). This is surprising because Kansas and Arkansas do not actually border each other while Oklahoma borders both Kansas and Arkansas.
+
+Same interpretation error here. Bray-Curtis and Jaccard are difficult to keep straight because their values mean opposites.
+In Bray-Curtis, 0 = less different, 1 = more different.
+In Jaccard, 0 = less similar, 1 = more similar.
+
+Also, I could be totally confusing this, so let's definitely ask Dr. Callahan about it.
 
 #A similar pattern emerges using the Jaccard Index: Kansas and Arkansas are the most similar (0.870), followed by Kansas and Oklahoma (0.831), and Arkansas and Oklahoma are the least similar (0.7111)
 
+Great job! Your code for county data from BIEN worked, but I couldn't run the code for Kansas, Arkansas, Oklahoma because you didn't provide the data files for them. 
 
